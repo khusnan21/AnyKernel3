@@ -4,22 +4,24 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=Redmi K30 4G Kernel with KernelSU
+kernel.string=Kernel for S20 FE (Exynos) by pascua28 @ xda-developers
 do.devicecheck=1
 do.modules=0
+do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=phoenix
-device.name2=phoenixin
+device.name1=r8s
+device.name2=
 device.name3=
 device.name4=
 device.name5=
 supported.versions=
+supported.patchlevels=
 '; } # end properties
 
 # shell variables
-block=/dev/block/bootdevice/by-name/boot;
-is_slot_device=auto;
+block=/dev/block/by-name/boot;
+is_slot_device=0;
 ramdisk_compression=auto;
 
 
@@ -30,18 +32,16 @@ ramdisk_compression=auto;
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
-set_perm_recursive 0 0 750 750 $ramdisk/*;
+set_perm_recursive 0 0 755 644 $ramdisk/*;
+set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 
 
-## AnyKernel install
+## AnyKernel boot install
 dump_boot;
 
-# Begin Ramdisk Changes
+# begin ramdisk changes
 
-# migrate from /overlay to /overlay.d to enable SAR Magisk
-if [ -d $ramdisk/overlay ]; then
-  rm -rf $ramdisk/overlay;
-fi;
+# end ramdisk changes
 
 write_boot;
-## end install
+## end boot install
